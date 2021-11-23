@@ -1,10 +1,9 @@
 # digitraffic-ais-capture
 
-Capture Digitraffic AIS messages of certain ships and write them to file.
+Capture Digitraffic AIS messages of all ships available from Digitraffic API.
 
 1. `pip3 install paho-mqtt`  
-2. Edit `mmsi_map` at listener.py to include ships you wan't  
-3. `python3 listener.py`  
+2. `python3 listener.py`  
 
-Data is written to files of format `vessel_locations_{shortname}_{mmsi}`  
-Each row at file represents a single GeoJSON Point Feature.
+Data is written to a single file `digitraffic_ais_raw`.
+Each row at file represents a single GeoJSON Point Feature. Also known as *GeoJSONSeq*.

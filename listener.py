@@ -49,7 +49,7 @@ if __name__ == '__main__':
     while True:
         time.sleep(60)
         print(f'current rate: {message_count}/60s')
-        with open(f'digitraffic_ais_dump', "a") as f:
+        with open(f'digitraffic_ais_raw', "a") as f:
             f.write(buffer)
             buffer = ""
         message_count = 0
