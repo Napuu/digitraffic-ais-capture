@@ -15,7 +15,7 @@ jobs:
     - name: Push To Registry
       uses: redhat-actions/push-to-registry@v2.5.1
       with:
-        image: tgbot1
+        image: digitraffic-ais-capture
         tags: latest
         registry: ${{ secrets.REGISTRY_HOSTNAME }}
         username: ${{ secrets.REGISTRY_USERNAME }}
