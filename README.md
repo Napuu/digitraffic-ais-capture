@@ -1,9 +1,9 @@
 # digitraffic-ais-capture
 
-Capture Digitraffic AIS messages of all ships available from Digitraffic API.
+Capture Digitraffic AIS messages of all ships available from Digitraffic API.  
+Do not insert values where sog = 0. Also max one mmsi per 15s is picked up.
 
-1. `pip3 install paho-mqtt`  
-2. `python3 listener.py`  
+1. `podman build -t ais-listener .`  
+2. `podman run -v $PWD/example.db:/app/example.db -e DB_LOCATION=/app/example.db -it ais-listener`
 
-Data is written to a single file `digitraffic_ais_raw`.
-Each row at file represents a single GeoJSON Point Feature. Also known as *GeoJSONSeq*.
+Data is written to a single SQLite defined by `DB_LOCATION`.
