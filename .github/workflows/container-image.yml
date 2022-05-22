@@ -5,32 +5,22 @@ on:
     branches: [ main ]
 
 jobs:
-  build-listener:
+  build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        image:
+          - listener
+          - api
     steps:
     - uses: actions/checkout@v3
     - name: Build the Container image
-      run: cd listener && podman build . --file Containerfile --tag digitraffic-ais-capture:latest
+      run: cd ${{ matrix.image }} && podman build . --file Containerfile --tag digitraffic-ais-capture-${{ matrix.image }}:latest
 
     - name: Push To Registry
       uses: redhat-actions/push-to-registry@v2.5.1
       with:
-        image: digitraffic-ais-capture
-        tags: latest
-        registry: ${{ secrets.REGISTRY_HOSTNAME }}
-        username: ${{ secrets.REGISTRY_USERNAME }}
-        password: ${{ secrets.REGISTRY_PASSWORD }}
-  build-api:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    - name: Build the Container image
-      run: cd api && podman build . --file Containerfile --tag ais-api:latest
-
-    - name: Push To Registry
-      uses: redhat-actions/push-to-registry@v2.5.1
-      with:
-        image: digitraffic-ais-capture
+        image: digitraffic-ais-capture-${{ matrix.image }}
         tags: latest
         registry: ${{ secrets.REGISTRY_HOSTNAME }}
         username: ${{ secrets.REGISTRY_USERNAME }}
