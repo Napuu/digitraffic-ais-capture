@@ -120,9 +120,9 @@ func (dbObj *TileRequestHandler) Get(c *gin.Context) {
 
 func main() {
 
-	dbPath := os.Getenv("DB_PATH")
+	dbPath := os.Getenv("DB_LOCATION")
 	if dbPath == "" {
-		log.Fatalln("DB_PATH is not set")
+		log.Fatalln("DB_LOCATION is not set")
 	}
 	db, err := sqlx.Open("sqlite3", dbPath+"?mode=ro&cache=shared")
 	if err != nil {
