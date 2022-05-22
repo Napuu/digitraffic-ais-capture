@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"os"
+	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -55,6 +56,10 @@ func (dbObj *TileRequestHandler) Get(c *gin.Context) {
 	bbox := c.QueryMap("bbox")
 
 	ts := c.Query("ts")
+	tsDiff := c.Query("tsDiff")
+	if tsDiff == "" {
+		tsDiff = "3600"
+	}
 	parsedTs, err := time.Parse(time.RFC3339, ts)
 	if err != nil {
 		log.Println(err)
@@ -63,8 +68,14 @@ func (dbObj *TileRequestHandler) Get(c *gin.Context) {
 		})
 		return
 	}
-	tsDiff := time.Minute * 10
-	tsMin := parsedTs.Add(-tsDiff)
+	parsedTsDiff, err := strconv.Atoi(tsDiff)
+	if err != nil {
+		log.Println(err)
+		c.JSON(500, gin.H{
+			"err": "timestamp diff parsing failed",
+		})
+	}
+	tsMin := parsedTs.Add(-time.Second * time.Duration(parsedTsDiff))
 	tsMax := parsedTs
 	rows, err := dbObj.Db.Queryx(`
 		SELECT *, MAX(ts) as ts FROM ship
