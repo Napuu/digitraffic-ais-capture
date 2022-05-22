@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"os"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -119,7 +120,11 @@ func (dbObj *TileRequestHandler) Get(c *gin.Context) {
 
 func main() {
 
-	db, err := sqlx.Open("sqlite3", "./kissa.db?mode=ro&cache=shared")
+	dbPath := os.Getenv("DB_PATH")
+	if dbPath == "" {
+		log.Fatalln("DB_PATH is not set")
+	}
+	db, err := sqlx.Open("sqlite3", dbPath+"?mode=ro&cache=shared")
 	if err != nil {
 		log.Fatalln(err)
 	}
