@@ -1,4 +1,4 @@
-FROM golang:alpine3.15
+FROM golang:stretch
 WORKDIR /app
 COPY go.mod go.mod
 COPY go.sum go.sum
