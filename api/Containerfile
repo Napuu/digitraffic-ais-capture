@@ -1,0 +1,8 @@
+FROM golang:alpine3.15
+WORKDIR /app
+COPY go.mod go.mod
+COPY go.sum go.sum
+COPY main.go main.go
+ENV GIN_MODE=release
+RUN go build
+ENTRYPOINT [ "./ais-proxy" ]
